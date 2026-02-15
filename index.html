@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -9,105 +9,210 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-7ZKWNKYDG7');
   </script>
-  <title>로또 번호 추천기</title>
+  <title>로또 번호 추첨기 | LottoPick</title>
   <style>
     :root {
-      --bg-1: #f4f7ff;
-      --bg-2: #e8fff4;
-      --card: #ffffff;
-      --text: #182230;
-      --muted: #566476;
-      --accent: #1769aa;
-      --accent-2: #1e88e5;
-      --border: #d8e2ef;
+      --bg-1: #0f0c29;
+      --bg-2: #302b63;
+      --bg-3: #24243e;
+      --card: rgba(255,255,255,0.06);
+      --card-border: rgba(255,255,255,0.1);
+      --text: #f0f0f5;
+      --muted: #9ca3b4;
+      --accent: #ffd700;
+      --accent-glow: rgba(255,215,0,0.3);
+      --danger: #ef5350;
+      --success: #66bb6a;
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      margin: 0;
       min-height: 100vh;
       font-family: "Pretendard", "Noto Sans KR", "Segoe UI", sans-serif;
       color: var(--text);
-      background:
-        radial-gradient(circle at 10% 20%, #cfe6ff 0%, transparent 33%),
-        radial-gradient(circle at 85% 80%, #c6f7da 0%, transparent 35%),
-        linear-gradient(160deg, var(--bg-1), var(--bg-2));
-      display: grid;
-      place-items: center;
-      padding: 24px;
+      background: linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
+      background-size: 400% 400%;
+      animation: bgShift 12s ease infinite;
+      overflow-x: hidden;
     }
 
-    .card {
-      width: min(700px, 100%);
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 28px;
-      box-shadow: 0 20px 40px rgba(23, 56, 92, 0.12);
+    @keyframes bgShift {
+      0%,100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
-    h1 {
-      margin: 0;
-      font-size: clamp(24px, 3.4vw, 34px);
+    /* Header */
+    header {
+      text-align: center;
+      padding: 40px 20px 10px;
+    }
+
+    header h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 900;
+      background: linear-gradient(135deg, #ffd700, #ffaa00, #ffd700);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
       letter-spacing: -0.02em;
     }
 
-    p {
-      margin: 10px 0 0;
+    @keyframes shimmer {
+      to { background-position: 200% center; }
+    }
+
+    header p {
       color: var(--muted);
+      margin-top: 8px;
       font-size: 15px;
-      line-height: 1.6;
     }
 
-    .controls {
-      margin-top: 22px;
+    /* Layout */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 20px;
     }
 
-    button {
-      border: none;
+    /* Cards */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title .icon {
+      font-size: 22px;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .tab-btn {
+      padding: 10px 18px;
       border-radius: 12px;
-      padding: 12px 18px;
+      border: 1px solid var(--card-border);
+      background: transparent;
+      color: var(--muted);
       font: inherit;
-      font-weight: 700;
+      font-weight: 600;
+      font-size: 14px;
       cursor: pointer;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #fff;
-      transition: transform 0.12s ease, box-shadow 0.12s ease;
-      box-shadow: 0 8px 18px rgba(23, 105, 170, 0.25);
+      white-space: nowrap;
+      transition: all 0.2s;
     }
 
-    button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 20px rgba(23, 105, 170, 0.3);
+    .tab-btn.active {
+      background: var(--accent);
+      color: #1a1a2e;
+      border-color: var(--accent);
+      box-shadow: 0 4px 20px var(--accent-glow);
     }
 
-    button:active {
-      transform: translateY(1px);
+    .tab-btn:hover:not(.active) {
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
-    .result {
-      margin-top: 24px;
-      padding: 16px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: #f9fcff;
-      min-height: 98px;
-      display: grid;
-      align-content: center;
-      gap: 12px;
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Draw button */
+    .draw-section {
+      text-align: center;
     }
 
-    .balls {
+    .draw-btn {
+      position: relative;
+      border: none;
+      border-radius: 16px;
+      padding: 16px 40px;
+      font: inherit;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ffd700, #ffaa00);
+      color: #1a1a2e;
+      transition: all 0.2s;
+      box-shadow: 0 8px 30px var(--accent-glow);
+      overflow: hidden;
+    }
+
+    .draw-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 12px 40px rgba(255,215,0,0.5);
+    }
+
+    .draw-btn:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    .draw-btn.spinning {
+      pointer-events: none;
+      animation: shake 0.3s ease infinite;
+    }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-3px) rotate(-1deg); }
+      75% { transform: translateX(3px) rotate(1deg); }
+    }
+
+    .set-count {
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .set-count label {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .set-count select {
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* Results */
+    .result-area {
+      margin-top: 20px;
+      min-height: 60px;
     }
 
     .set-row {
@@ -115,24 +220,25 @@
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
-      padding: 8px 0;
-      border-bottom: 1px dashed var(--border);
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
-    .set-row:last-child {
-      border-bottom: none;
-    }
+    .set-row:last-child { border-bottom: none; }
 
     .set-label {
-      min-width: 70px;
+      min-width: 65px;
       font-weight: 700;
-      color: var(--muted);
+      color: var(--accent);
       font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
-    .plus {
-      font-weight: 800;
-      color: var(--muted);
+    .balls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .ball {
@@ -144,73 +250,454 @@
       color: #fff;
       font-weight: 800;
       font-size: 16px;
-      box-shadow: inset 0 -7px 12px rgba(0, 0, 0, 0.18);
-      animation: pop 0.28s ease both;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3), inset 0 -4px 8px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.3);
+      animation: pop 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+      position: relative;
+    }
+
+    .ball::after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      left: 10px;
+      width: 12px;
+      height: 8px;
+      background: rgba(255,255,255,0.35);
+      border-radius: 50%;
+      transform: rotate(-20deg);
+    }
+
+    .plus-sign {
+      font-weight: 800;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .ball.bonus {
+      box-shadow: 0 0 20px rgba(255,215,0,0.5), 0 4px 15px rgba(0,0,0,0.3), inset 0 -4px 8px rgba(0,0,0,0.2);
+      border: 2px solid var(--accent);
+    }
+
+    .c1 { background: linear-gradient(135deg, #f9a825, #f57f17); }
+    .c2 { background: linear-gradient(135deg, #42a5f5, #1565c0); }
+    .c3 { background: linear-gradient(135deg, #ef5350, #c62828); }
+    .c4 { background: linear-gradient(135deg, #ab47bc, #6a1b9a); }
+    .c5 { background: linear-gradient(135deg, #66bb6a, #2e7d32); }
+
+    @keyframes pop {
+      from { transform: scale(0) rotate(-180deg); opacity: 0; }
+      to { transform: scale(1) rotate(0deg); opacity: 1; }
     }
 
     .note {
+      text-align: center;
       color: var(--muted);
       font-size: 13px;
+      margin-top: 12px;
     }
 
-    .c1 { background: #f4b400; }
-    .c2 { background: #1e88e5; }
-    .c3 { background: #ef5350; }
-    .c4 { background: #8e24aa; }
-    .c5 { background: #43a047; }
-
-    @keyframes pop {
-      from { transform: scale(0.8); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+    /* Manual pick */
+    .number-grid {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap: 6px;
+      margin-bottom: 16px;
     }
+
+    .num-cell {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.12);
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: grid;
+      place-items: center;
+    }
+
+    .num-cell:hover {
+      border-color: var(--accent);
+      background: rgba(255,215,0,0.1);
+    }
+
+    .num-cell.selected {
+      background: var(--accent);
+      color: #1a1a2e;
+      border-color: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
+      transform: scale(1.1);
+    }
+
+    .num-cell.disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .pick-info {
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .pick-info strong {
+      color: var(--accent);
+    }
+
+    .pick-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-secondary {
+      padding: 10px 20px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-primary-sm {
+      padding: 10px 20px;
+      border-radius: 12px;
+      border: none;
+      background: var(--accent);
+      color: #1a1a2e;
+      font: inherit;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary-sm:hover {
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+
+    .btn-primary-sm:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .manual-result {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--card-border);
+    }
+
+    /* History */
+    .history-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .history-item {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .history-item:last-child { border-bottom: none; }
+
+    .history-time {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .history-balls {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .history-balls .ball {
+      width: 36px;
+      height: 36px;
+      font-size: 13px;
+      animation: none;
+    }
+
+    .history-balls .ball::after { display: none; }
+
+    .history-empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 30px;
+      font-size: 14px;
+    }
+
+    .clear-history {
+      margin-top: 12px;
+      text-align: right;
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat-box {
+      background: rgba(255,255,255,0.04);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      border: 1px solid var(--card-border);
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .freq-bar-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 0;
+    }
+
+    .freq-num {
+      min-width: 28px;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: right;
+      color: var(--muted);
+    }
+
+    .freq-bar-bg {
+      flex: 1;
+      height: 18px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 9px;
+      overflow: hidden;
+    }
+
+    .freq-bar {
+      height: 100%;
+      border-radius: 9px;
+      transition: width 0.5s ease;
+    }
+
+    .freq-count {
+      min-width: 20px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* Confetti */
+    .confetti-piece {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      top: -10px;
+      z-index: 999;
+      animation: confettiFall 2.5s ease-out forwards;
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
 
     @media (max-width: 520px) {
-      .card { padding: 22px; }
-      .ball {
-        width: 42px;
-        height: 42px;
-        font-size: 15px;
-      }
+      .number-grid { grid-template-columns: repeat(7, 1fr); }
+      .ball { width: 40px; height: 40px; font-size: 14px; }
+      .history-balls .ball { width: 32px; height: 32px; font-size: 12px; }
+      .card { padding: 18px; }
     }
   </style>
 </head>
 <body>
-  <main class="card">
-    <h1>로또 번호 추천기</h1>
-    <p>버튼을 누르면 중복 없는 번호 조합 5개(각 6개 번호 + 보너스 1개)를 한 번에 추천합니다.</p>
+  <header>
+    <h1>LottoPick</h1>
+    <p>행운의 로또 번호를 추첨하세요</p>
+  </header>
 
-    <div class="controls">
-      <button id="drawBtn" type="button">번호 추천받기</button>
+  <div class="container">
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="auto">자동 추첨</button>
+      <button class="tab-btn" data-tab="manual">수동 선택</button>
+      <button class="tab-btn" data-tab="history">추첨 기록</button>
+      <button class="tab-btn" data-tab="stats">통계</button>
     </div>
 
-    <section class="result" aria-live="polite">
-      <div id="results"></div>
-      <div id="note" class="note">아직 번호를 뽑지 않았습니다.</div>
-    </section>
-  </main>
+    <!-- Auto Draw -->
+    <div class="tab-content active" id="tab-auto">
+      <div class="card">
+        <div class="card-title"><span class="icon">🎰</span> 자동 번호 추첨</div>
+        <div class="draw-section">
+          <div class="set-count">
+            <label for="setCount">추첨 조합 수</label>
+            <select id="setCount">
+              <option value="1">1 조합</option>
+              <option value="3">3 조합</option>
+              <option value="5" selected>5 조합</option>
+              <option value="10">10 조합</option>
+            </select>
+          </div>
+          <button class="draw-btn" id="drawBtn">번호 추첨하기</button>
+        </div>
+        <div class="result-area" id="results">
+          <div class="note">버튼을 눌러 행운의 번호를 받아보세요!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manual Pick -->
+    <div class="tab-content" id="tab-manual">
+      <div class="card">
+        <div class="card-title"><span class="icon">✋</span> 수동 번호 선택</div>
+        <div class="pick-info">번호 <strong id="pickCount">0</strong> / 6 선택됨</div>
+        <div class="number-grid" id="numberGrid"></div>
+        <div class="pick-actions">
+          <button class="btn-secondary" id="clearPick">초기화</button>
+          <button class="btn-secondary" id="autoFill">나머지 자동</button>
+          <button class="btn-primary-sm" id="confirmPick" disabled>이 번호로 확정</button>
+        </div>
+        <div id="manualResult"></div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="tab-content" id="tab-history">
+      <div class="card">
+        <div class="card-title"><span class="icon">📋</span> 추첨 기록</div>
+        <div class="history-list" id="historyList">
+          <div class="history-empty">아직 추첨 기록이 없습니다.</div>
+        </div>
+        <div class="clear-history">
+          <button class="btn-secondary" id="clearHistory">기록 삭제</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="tab-content" id="tab-stats">
+      <div class="card">
+        <div class="card-title"><span class="icon">📊</span> 나의 추첨 통계</div>
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-box">
+            <div class="stat-value" id="totalDraws">0</div>
+            <div class="stat-label">총 추첨 횟수</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value" id="totalSets">0</div>
+            <div class="stat-label">총 조합 수</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value" id="mostFreq">-</div>
+            <div class="stat-label">최다 출현 번호</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value" id="leastFreq">-</div>
+            <div class="stat-label">최소 출현 번호</div>
+          </div>
+        </div>
+        <div class="card-title" style="font-size:15px; margin-top:8px;">번호별 출현 빈도 (Top 10)</div>
+        <div id="freqChart"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    로또 번호는 무작위로 생성되며, 당첨을 보장하지 않습니다.<br>
+    &copy; 2026 LottoPick &mdash; 재미로 즐기세요!
+  </footer>
 
   <script>
-    const drawBtn = document.getElementById("drawBtn");
-    const results = document.getElementById("results");
-    const note = document.getElementById("note");
+    // ─── State ───
+    let history = JSON.parse(localStorage.getItem("lottoHistory") || "[]");
+    const manualSelected = new Set();
 
-    function pickLottoNumbers() {
-      const picked = new Set();
-      while (picked.size < 6) {
-        picked.add(Math.floor(Math.random() * 45) + 1);
+    // ─── Elements ───
+    const $ = (id) => document.getElementById(id);
+    const drawBtn = $("drawBtn");
+    const resultsEl = $("results");
+    const setCountEl = $("setCount");
+    const numberGrid = $("numberGrid");
+    const pickCountEl = $("pickCount");
+    const clearPickBtn = $("clearPick");
+    const autoFillBtn = $("autoFill");
+    const confirmPickBtn = $("confirmPick");
+    const manualResultEl = $("manualResult");
+    const historyListEl = $("historyList");
+    const clearHistoryBtn = $("clearHistory");
+
+    // ─── Tabs ───
+    document.querySelectorAll(".tab-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+        document.querySelectorAll(".tab-content").forEach((c) => c.classList.remove("active"));
+        btn.classList.add("active");
+        $("tab-" + btn.dataset.tab).classList.add("active");
+        if (btn.dataset.tab === "history") renderHistory();
+        if (btn.dataset.tab === "stats") renderStats();
+      });
+    });
+
+    // ─── Lotto Logic ───
+    function pickNumbers(count = 6, exclude = []) {
+      const pool = [];
+      for (let i = 1; i <= 45; i++) {
+        if (!exclude.includes(i)) pool.push(i);
       }
-      return [...picked].sort((a, b) => a - b);
+      const picked = [];
+      while (picked.length < count && pool.length > 0) {
+        const idx = Math.floor(Math.random() * pool.length);
+        picked.push(pool.splice(idx, 1)[0]);
+      }
+      return picked.sort((a, b) => a - b);
     }
 
-    function pickBonusNumber(mainNumbers) {
-      let bonus = Math.floor(Math.random() * 45) + 1;
-      while (mainNumbers.includes(bonus)) {
-        bonus = Math.floor(Math.random() * 45) + 1;
-      }
-      return bonus;
-    }
-
-    function colorClassByNumber(n) {
+    function colorClass(n) {
       if (n <= 10) return "c1";
       if (n <= 20) return "c2";
       if (n <= 30) return "c3";
@@ -218,53 +705,294 @@
       return "c5";
     }
 
-    function createBall(n, delayIndex) {
-      const ball = document.createElement("div");
-      ball.className = `ball ${colorClassByNumber(n)}`;
-      ball.style.animationDelay = `${delayIndex * 0.05}s`;
-      ball.textContent = String(n);
-      return ball;
+    function createBall(n, delay = 0, isBonus = false) {
+      const el = document.createElement("div");
+      el.className = `ball ${colorClass(n)}${isBonus ? " bonus" : ""}`;
+      el.style.animationDelay = `${delay * 0.07}s`;
+      el.textContent = n;
+      return el;
     }
 
-    function renderNumberSets(sets) {
-      results.innerHTML = "";
+    // ─── Confetti ───
+    function spawnConfetti() {
+      const colors = ["#ffd700", "#ff6b6b", "#48dbfb", "#ff9ff3", "#54a0ff", "#5f27cd", "#01a3a4"];
+      for (let i = 0; i < 40; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti-piece";
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+        piece.style.width = (6 + Math.random() * 8) + "px";
+        piece.style.height = (6 + Math.random() * 8) + "px";
+        piece.style.animationDuration = (2 + Math.random() * 1.5) + "s";
+        piece.style.animationDelay = Math.random() * 0.5 + "s";
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 4000);
+      }
+    }
 
-      sets.forEach((set, setIdx) => {
+    // ─── Auto Draw ───
+    drawBtn.addEventListener("click", () => {
+      const count = parseInt(setCountEl.value);
+      drawBtn.classList.add("spinning");
+      drawBtn.textContent = "추첨 중...";
+      resultsEl.innerHTML = "";
+
+      setTimeout(() => {
+        const sets = [];
+        for (let i = 0; i < count; i++) {
+          const main = pickNumbers(6);
+          const bonus = pickNumbers(1, main)[0];
+          sets.push({ main, bonus });
+        }
+
+        renderSets(sets, resultsEl);
+        saveHistory(sets, "auto");
+        spawnConfetti();
+
+        drawBtn.classList.remove("spinning");
+        drawBtn.textContent = "번호 추첨하기";
+      }, 600);
+    });
+
+    function renderSets(sets, container) {
+      sets.forEach((set, si) => {
         const row = document.createElement("div");
         row.className = "set-row";
 
         const label = document.createElement("div");
         label.className = "set-label";
-        label.textContent = `${setIdx + 1}번 조합`;
+        label.textContent = `${si + 1}번 조합`;
         row.appendChild(label);
 
-        const mainWrap = document.createElement("div");
-        mainWrap.className = "balls";
-        set.main.forEach((n, idx) => {
-          mainWrap.appendChild(createBall(n, idx + setIdx * 7));
+        const ballsWrap = document.createElement("div");
+        ballsWrap.className = "balls";
+        set.main.forEach((n, ni) => {
+          ballsWrap.appendChild(createBall(n, ni + si * 7));
         });
-        row.appendChild(mainWrap);
+        row.appendChild(ballsWrap);
 
         const plus = document.createElement("span");
-        plus.className = "plus";
+        plus.className = "plus-sign";
         plus.textContent = "+";
         row.appendChild(plus);
 
-        row.appendChild(createBall(set.bonus, 6 + setIdx * 7));
-        results.appendChild(row);
+        row.appendChild(createBall(set.bonus, 6 + si * 7, true));
+        container.appendChild(row);
       });
-
-      note.textContent = "각 조합은 메인 번호 6개 + 보너스 번호 1개입니다.";
     }
 
-    drawBtn.addEventListener("click", () => {
-      const sets = Array.from({ length: 5 }, () => {
-        const main = pickLottoNumbers();
-        const bonus = pickBonusNumber(main);
-        return { main, bonus };
+    // ─── Manual Pick ───
+    (function initGrid() {
+      for (let i = 1; i <= 45; i++) {
+        const btn = document.createElement("button");
+        btn.className = "num-cell";
+        btn.textContent = i;
+        btn.dataset.num = i;
+        btn.addEventListener("click", () => toggleNum(i, btn));
+        numberGrid.appendChild(btn);
+      }
+    })();
+
+    function toggleNum(n, btn) {
+      if (manualSelected.has(n)) {
+        manualSelected.delete(n);
+        btn.classList.remove("selected");
+      } else {
+        if (manualSelected.size >= 6) return;
+        manualSelected.add(n);
+        btn.classList.add("selected");
+      }
+      updatePickUI();
+    }
+
+    function updatePickUI() {
+      pickCountEl.textContent = manualSelected.size;
+      confirmPickBtn.disabled = manualSelected.size !== 6;
+      numberGrid.querySelectorAll(".num-cell").forEach((cell) => {
+        const n = parseInt(cell.dataset.num);
+        if (manualSelected.size >= 6 && !manualSelected.has(n)) {
+          cell.classList.add("disabled");
+        } else {
+          cell.classList.remove("disabled");
+        }
       });
-      renderNumberSets(sets);
+    }
+
+    clearPickBtn.addEventListener("click", () => {
+      manualSelected.clear();
+      numberGrid.querySelectorAll(".num-cell").forEach((c) => {
+        c.classList.remove("selected", "disabled");
+      });
+      manualResultEl.innerHTML = "";
+      updatePickUI();
     });
+
+    autoFillBtn.addEventListener("click", () => {
+      const need = 6 - manualSelected.size;
+      if (need <= 0) return;
+      const remaining = pickNumbers(need, [...manualSelected]);
+      remaining.forEach((n) => {
+        manualSelected.add(n);
+        const cell = numberGrid.querySelector(`[data-num="${n}"]`);
+        if (cell) cell.classList.add("selected");
+      });
+      updatePickUI();
+    });
+
+    confirmPickBtn.addEventListener("click", () => {
+      const main = [...manualSelected].sort((a, b) => a - b);
+      const bonus = pickNumbers(1, main)[0];
+      const set = { main, bonus };
+
+      manualResultEl.innerHTML = "";
+      const wrapper = document.createElement("div");
+      wrapper.className = "manual-result";
+      const row = document.createElement("div");
+      row.className = "set-row";
+
+      const label = document.createElement("div");
+      label.className = "set-label";
+      label.textContent = "확정 번호";
+      row.appendChild(label);
+
+      const ballsWrap = document.createElement("div");
+      ballsWrap.className = "balls";
+      main.forEach((n, i) => ballsWrap.appendChild(createBall(n, i)));
+      row.appendChild(ballsWrap);
+
+      const plus = document.createElement("span");
+      plus.className = "plus-sign";
+      plus.textContent = "+";
+      row.appendChild(plus);
+      row.appendChild(createBall(bonus, 6, true));
+
+      wrapper.appendChild(row);
+      manualResultEl.appendChild(wrapper);
+
+      saveHistory([set], "manual");
+      spawnConfetti();
+    });
+
+    // ─── History ───
+    function saveHistory(sets, type) {
+      const entry = {
+        time: new Date().toISOString(),
+        type,
+        sets,
+      };
+      history.unshift(entry);
+      if (history.length > 50) history.pop();
+      localStorage.setItem("lottoHistory", JSON.stringify(history));
+    }
+
+    function renderHistory() {
+      if (history.length === 0) {
+        historyListEl.innerHTML = '<div class="history-empty">아직 추첨 기록이 없습니다.</div>';
+        return;
+      }
+
+      historyListEl.innerHTML = "";
+      history.forEach((entry) => {
+        const item = document.createElement("div");
+        item.className = "history-item";
+
+        const time = document.createElement("div");
+        time.className = "history-time";
+        const d = new Date(entry.time);
+        time.textContent = `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")} — ${entry.type === "auto" ? "자동" : "수동"}`;
+        item.appendChild(time);
+
+        entry.sets.forEach((set) => {
+          const row = document.createElement("div");
+          row.className = "history-balls";
+          set.main.forEach((n) => {
+            const b = document.createElement("div");
+            b.className = `ball ${colorClass(n)}`;
+            b.textContent = n;
+            row.appendChild(b);
+          });
+          const plus = document.createElement("span");
+          plus.className = "plus-sign";
+          plus.textContent = " + ";
+          row.appendChild(plus);
+          const bonus = document.createElement("div");
+          bonus.className = `ball ${colorClass(set.bonus)} bonus`;
+          bonus.textContent = set.bonus;
+          row.appendChild(bonus);
+          item.appendChild(row);
+        });
+
+        historyListEl.appendChild(item);
+      });
+    }
+
+    clearHistoryBtn.addEventListener("click", () => {
+      if (confirm("추첨 기록을 모두 삭제하시겠습니까?")) {
+        history = [];
+        localStorage.removeItem("lottoHistory");
+        renderHistory();
+        renderStats();
+      }
+    });
+
+    // ─── Stats ───
+    function renderStats() {
+      const freq = {};
+      let totalSets = 0;
+      for (let i = 1; i <= 45; i++) freq[i] = 0;
+
+      history.forEach((entry) => {
+        entry.sets.forEach((set) => {
+          totalSets++;
+          set.main.forEach((n) => freq[n]++);
+        });
+      });
+
+      $("totalDraws").textContent = history.length;
+      $("totalSets").textContent = totalSets;
+
+      const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]);
+      const max = sorted[0]?.[1] || 0;
+
+      if (max > 0) {
+        $("mostFreq").textContent = sorted[0][0];
+        const leastNonZero = sorted.filter(([, v]) => v > 0);
+        $("leastFreq").textContent = leastNonZero.length > 0 ? leastNonZero[leastNonZero.length - 1][0] : "-";
+      } else {
+        $("mostFreq").textContent = "-";
+        $("leastFreq").textContent = "-";
+      }
+
+      const chart = $("freqChart");
+      chart.innerHTML = "";
+      const top10 = sorted.slice(0, 10);
+
+      top10.forEach(([num, count]) => {
+        const row = document.createElement("div");
+        row.className = "freq-bar-container";
+
+        const numEl = document.createElement("div");
+        numEl.className = "freq-num";
+        numEl.textContent = num;
+        row.appendChild(numEl);
+
+        const barBg = document.createElement("div");
+        barBg.className = "freq-bar-bg";
+        const bar = document.createElement("div");
+        bar.className = `freq-bar ${colorClass(parseInt(num))}`;
+        bar.style.width = max > 0 ? (count / max * 100) + "%" : "0%";
+        barBg.appendChild(bar);
+        row.appendChild(barBg);
+
+        const countEl = document.createElement("div");
+        countEl.className = "freq-count";
+        countEl.textContent = count;
+        row.appendChild(countEl);
+
+        chart.appendChild(row);
+      });
+    }
   </script>
 </body>
 </html>
